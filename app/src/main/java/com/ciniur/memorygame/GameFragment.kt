@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import com.ciniur.memorygame.databinding.FragmentGameBinding
 import kotlinx.android.synthetic.main.fragment_game.*
 
@@ -29,6 +30,8 @@ class GameFragment : Fragment() {
         binding.btnStart.setOnClickListener {
             val map = game(binding)
             var color: Int = -1
+            var cnt = 7
+            var opp = 3
             var view: TextView = textView1
             for (item in map.keys) {
                 item.setOnClickListener {
@@ -43,6 +46,11 @@ class GameFragment : Fragment() {
                         it.isEnabled = false
                         it.setBackgroundColor(color)
                         color = -1
+                        cnt--
+                        if (cnt==0){
+                            findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+                            initGame()
+                        }
                         Log.e("clicked", "you r in if 2")
                     }
                     else {
@@ -50,6 +58,10 @@ class GameFragment : Fragment() {
                         color = -1
                         it.setBackgroundColor(Color.WHITE)
                         view.setBackgroundColor(Color.WHITE)
+                        if(--opp==0){
+                            findNavController().navigate(R.id.action_gameFragment_to_gameLoseFragment)
+                            initGame()
+                        }
                     }
                 }
             }
@@ -58,7 +70,7 @@ class GameFragment : Fragment() {
     }
 
     fun game(binding: FragmentGameBinding):Map<TextView,Int>{
-        val list = initGame(binding)
+        val list = initGame()
         val randColor = randColor()
         var i =0
         val map :MutableMap<TextView,Int> = mutableMapOf()
@@ -78,7 +90,7 @@ class GameFragment : Fragment() {
 
         return  map
     }
-    fun initGame(binding: FragmentGameBinding):MutableList<TextView>{
+    fun initGame():MutableList<TextView>{
 
         val list  = mutableListOf(textView1,textView2,textView3,textView4,textView5,textView6,textView7
             ,textView8,textView9,textView10,textView11,textView12,textView13,textView14,textView15,textView16)
