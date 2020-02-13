@@ -30,7 +30,7 @@ class GameFragment : Fragment() {
         binding.btnStart.setOnClickListener {
             val map = game(binding)
             var color: Int = -1
-            var cnt = 7
+            var cnt = 8
             var opp = 3
             var view: TextView = textView1
             for (item in map.keys) {
@@ -46,8 +46,7 @@ class GameFragment : Fragment() {
                         it.isEnabled = false
                         it.setBackgroundColor(color)
                         color = -1
-                        cnt--
-                        if (cnt==0){
+                        if (--cnt==0){
                             findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
                             initGame()
                         }
@@ -58,7 +57,7 @@ class GameFragment : Fragment() {
                         color = -1
                         it.setBackgroundColor(Color.WHITE)
                         view.setBackgroundColor(Color.WHITE)
-                        if(--opp==0){
+                        if(opp--==0){
                             findNavController().navigate(R.id.action_gameFragment_to_gameLoseFragment)
                             initGame()
                         }
